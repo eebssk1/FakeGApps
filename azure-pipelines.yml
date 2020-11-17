@@ -18,9 +18,16 @@ steps:
     publishJUnitResults: false
     testResultsFiles: '**/TEST-*.xml'
     tasks: 'assembleRelease'
-- task: CopyFiles@2
+- task: AndroidSigning@3
   inputs:
-    contents: '**/*.apk'
-    targetFolder: '$(build.artifactStagingDirectory)'
+    apkFiles: 'app/build/outputs/apk/*/*.apk'
+    apksignerKeystoreFile: 'emulator.keystore'
+    apksignerKeystorePassword: 'android'
+    apksignerKeystoreAlias: 'testkey'
+    apksignerKeyPassword: 'android'
 - task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: 'app/build/outputs/apk'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
 
