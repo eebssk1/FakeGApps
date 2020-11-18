@@ -12,6 +12,7 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
 public class FakeSignatures implements IXposedHookZygoteInit {
+    static boolean log = false;
     @Override
     public void initZygote(StartupParam startupParam) {
         final Class<?> PackageParser = XposedHelpers.findClass("android.content.pm.PackageParser", null);
@@ -37,8 +38,8 @@ public class FakeSignatures implements IXposedHookZygoteInit {
                                 }
                             } catch (Exception ignored) {
                             }
-
-                            XposedBridge.log("FakeGApps: returning fake signature to \"" + callerAppName + "\" (" + callerPackageName + ")");
+                            if(log)
+                                XposedBridge.log("FakeGApps: returning fake signature to \"" + callerAppName + "\" (" + callerPackageName + ")");
                         } catch (NullPointerException e) {
                             XposedBridge.log("FakeGApps: " + e);
                         }
